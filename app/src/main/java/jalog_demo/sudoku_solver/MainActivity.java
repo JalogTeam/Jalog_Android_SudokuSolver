@@ -1,4 +1,5 @@
 package jalog_demo.sudoku_solver;
+import io.github.JalogTeam.jalog.Jalog;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import android.os.CountDownTimer;
 
 
 import android.os.Bundle;
@@ -62,6 +64,20 @@ public class MainActivity extends AppCompatActivity {
       */
       wait_message.setVisibility(View.VISIBLE);
 
+      new CountDownTimer(1000, 1000) {
+
+        public void onTick(long millisUntilFinished) {
+          // mTextField.setText("seconds remaining: " + millisUntilFinished / 1000);
+        }
+
+        public void onFinish() {
+          Jalog myJalog = new Jalog();
+          myJalog.dispose();
+
+          wait_message.setVisibility(View.INVISIBLE);
+        }
+      }.start();
+
     }
   };
 
@@ -117,19 +133,6 @@ public class MainActivity extends AppCompatActivity {
 
     push_button = ((Button)findViewById(R.id.solve));
     push_button.setOnClickListener(solve_listener);
-//    push_button31 = new Button(this, null, button_style);
-/*
-        android:id="@+id/button11"
-        style="@style/Widget.AppCompat.Button"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:background="@android:color/transparent"
-        android:text="11"
-        android:padding="0dp"
-        android:textColor="#000000"
-        android:textSize="20sp"
-        android:translationX="0dp" />
- */
 
 
 
