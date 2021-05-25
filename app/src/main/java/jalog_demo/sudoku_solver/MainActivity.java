@@ -40,6 +40,31 @@ public class MainActivity extends AppCompatActivity {
     }
   };
 
+  static View.OnClickListener solve_listener = new View.OnClickListener() {
+    public void onClick(View v) {
+      // your handler code here
+      /*
+      char symbol;
+      String disp_string;
+      Button x = (Button)v;
+      sudoku_cell cell = (sudoku_cell)x.getTag();
+
+      cell.value = cell.value + 1;
+      if (cell.value > 9) {
+        cell.value = 0;
+        disp_string = "_";
+      } else {
+        symbol = (char)('0' + cell.value);
+        disp_string = "" + symbol;
+      }
+//        push_button11.setText(disp_string);
+      x.setText(disp_string);
+      */
+      wait_message.setVisibility(View.VISIBLE);
+
+    }
+  };
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     int i, j;
@@ -90,7 +115,8 @@ public class MainActivity extends AppCompatActivity {
       }
     }
 
-
+    push_button = ((Button)findViewById(R.id.solve));
+    push_button.setOnClickListener(solve_listener);
 //    push_button31 = new Button(this, null, button_style);
 /*
         android:id="@+id/button11"
