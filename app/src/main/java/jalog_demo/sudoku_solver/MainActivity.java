@@ -15,33 +15,43 @@ import android.os.CountDownTimer;
 
 import android.os.Bundle;
 import java.io.*;
+import android.content.res.Configuration;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class MainActivity extends AppCompatActivity {
+
+  static ViewGroup main_viewgroup = null;
+  static TextView grid_area = null;
+
   class sudoku_cell {
-    TextView view;
+    Button view;
     int value;
-  };
+  }
+
+  ;
   static sudoku_cell[][] sudoku_field;
   static TextView wait_message;
   static float cell_translation_one;
   static AssetManager am = null;
+
   static String convert_number(int v) {
     String disp_string;
 
     if (v == 0) {
       disp_string = " ";
     } else {
-      disp_string = "" + (char)('0' + v);
+      disp_string = "" + (char) ('0' + v);
     }
     return disp_string;
   }
+
   static View.OnClickListener click_listener = new View.OnClickListener() {
     public void onClick(View v) {
       // your handler code here
       char symbol;
       String disp_string;
-      Button x = (Button)v;
-      sudoku_cell cell = (sudoku_cell)x.getTag();
+      Button x = (Button) v;
+      sudoku_cell cell = (sudoku_cell) x.getTag();
 
       cell.value = (cell.value + 1) % 10;
 /*
@@ -61,6 +71,17 @@ public class MainActivity extends AppCompatActivity {
 
   static View.OnClickListener solve_listener = new View.OnClickListener() {
     public void onClick(View v) {
+/*
+      if (main_viewgroup != null) {
+        width = main_viewgroup.getWidth();
+        height = main_viewgroup.getHeight();
+      }
+
+ */
+      if (grid_area != null) {
+        width = grid_area.getWidth();
+        height = grid_area.getHeight();
+      }
       // your handler code here
       /*
       char symbol;
@@ -94,7 +115,6 @@ public class MainActivity extends AppCompatActivity {
 //          InputStream is = mContext.getAssets().open("sudoku_solver_component.pro");
 
 
-
           myJalog.consult_file("res:sudoku_solver_component.pro");
 
           solve_sudoku(myJalog);
@@ -117,12 +137,12 @@ public class MainActivity extends AppCompatActivity {
     Jalog.Term element;
 
 //  Preparation of the problem
-    
+
     for (i = 0; i < 9; i++) {
       for (j = 0; j < 9; j++) {
 //        value = sudoku_problem[i][j];
         value = sudoku_field[i][j].value;
-        if(value == 0) {
+        if (value == 0) {
           line[j] = Jalog.open();
         } else {
           line[j] = Jalog.integer(value);
@@ -133,10 +153,9 @@ public class MainActivity extends AppCompatActivity {
     board = Jalog.list(matrix);
 
 //  Finding the solution
-  
+
     try {
-      if (myJalog.call("sudoku", board))
-      { // Getting the solution
+      if (myJalog.call("sudoku", board)) { // Getting the solution
         matrix = board.getElements();
         for (i = 0; i < 9; i++) {
           line = matrix[i].getElements();
@@ -144,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
             element = line[j];
             if (element.getType() == Jalog.INTEGER) {
 //              sudoku_solution[i][j] = (int)element.getIntegerValue();
-              sudoku_field[i][j].value = (int)element.getIntegerValue();
+              sudoku_field[i][j].value = (int) element.getIntegerValue();
               sudoku_field[i][j].view.setText(convert_number(sudoku_field[i][j].value));
 
             }
@@ -158,51 +177,47 @@ public class MainActivity extends AppCompatActivity {
     }
   }
 
+  static int width;
+  static int height;
 
+  @Override
+  public void onPostResume() {
+    super.onPostResume();
 
+    new CountDownTimer(1000, 1000) {
+
+      public void onTick(long millisUntilFinished) {
+        // mTextField.setText("seconds remaining: " + millisUntilFinished / 1000);
+      }
+
+      public void onFinish() {
+        setLayout();
+
+      }
+    }.start();
+
+  }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     int i, j;
-    int button_width, button_height;
     Button push_button;
     super.onCreate(savedInstanceState);
     sudoku_field = new sudoku_cell[9][];
 //    sudoku_field = new sudoku_cell[9][9];
     setContentView(R.layout.activity_main);
     am = getResources().getAssets();
-/*
-    final InputStream   is;
-    final AssetManager am = getResources().getAssets();
-    String line;
-    try {
-
-      is = am.open("sudoku_solver_component.pro");
-
-      Reader input =
-          new InputStreamReader(is, "UTF-8");
-      BufferedReader file1 = new BufferedReader(input);
-      line = file1.readLine();
-    } catch (Exception e) {
-    }
-*/
-
-
-    wait_message = (TextView) findViewById(R.id.wait_message);
-    wait_message.setVisibility(View.INVISIBLE);
 
 
     int button_style = R.style.Widget_AppCompat_Button;
-    button_width = 80;
-    button_height = 80;
 //    Drawable buttonBackground = push_button11.getBackground();
     int buttonBackground = 0;
     int button_padding = 0;
     int button_color = 0xFFFFFF;
-    float button_textsize = 20;
-    float cell_translation_one = 80;
 
-    ViewGroup main_viewgroup = ((ViewGroup)findViewById(R.id.main_layout));
+    main_viewgroup = ((ViewGroup)findViewById(R.id.main_layout));
+    grid_area = ((TextView)findViewById(R.id.grid_area));
+
     for (i = 0; i < 9; i++) {
       sudoku_field[i] = new sudoku_cell[9];
       for (j = 0; j < 9; j++) {
@@ -212,19 +227,10 @@ public class MainActivity extends AppCompatActivity {
 
         push_button.setPadding(button_padding, 0, button_padding, 0);
         push_button.setBackgroundColor(buttonBackground);
-        push_button.setLayoutParams(new ViewGroup.LayoutParams(button_width, button_height));
-        push_button.setTranslationX(j*cell_translation_one);
-        push_button.setTranslationY(i*cell_translation_one);
-        push_button.setTextSize(20);
-//    push_button31.setZ(99);
         main_viewgroup.addView(push_button);
         sudoku_field[i][j].view = push_button;
-        /*
-        sudoku_field[i][j].value = 10*(i+1) + j + 1;
-        push_button.setText("" + (i + 1) + (j + 1));
-        */
         sudoku_field[i][j].value = 0;
-        push_button.setText(" ");
+        push_button.setText("-");
         push_button.setTag(sudoku_field[i][j]);
 
         push_button.setOnClickListener(click_listener);
@@ -234,8 +240,33 @@ public class MainActivity extends AppCompatActivity {
 
     push_button = ((Button)findViewById(R.id.solve));
     push_button.setOnClickListener(solve_listener);
+  }
 
+  protected void setLayout() {
+    int i, j;
+    Button push_button;
+    int button_width, button_height;
+    wait_message = (TextView) findViewById(R.id.wait_message);
+    wait_message.setVisibility(View.INVISIBLE);
+    int a = grid_area.getMeasuredHeight();
+    int b = grid_area.getMeasuredWidth();
 
+    int button_dim = (a < b ? a : b) / 9 - 1;
+    button_width = button_dim;
+    button_height = button_dim;
+    float button_textsize = button_dim / 4;
+    float cell_translation_one = button_dim;
+
+    for (i = 0; i < 9; i++) {
+      for (j = 0; j < 9; j++) {
+        push_button = sudoku_field[i][j].view;
+        push_button.setLayoutParams(new ConstraintLayout.LayoutParams(button_width, button_height));
+        push_button.setTranslationX(j * cell_translation_one);
+        push_button.setTranslationY(i * cell_translation_one);
+        push_button.setTextSize(20);
+        push_button.setText("+");
+      }
+    }
 
   }
 }
