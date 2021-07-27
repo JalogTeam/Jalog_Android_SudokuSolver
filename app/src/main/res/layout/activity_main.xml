@@ -74,6 +74,7 @@
         android:layout_marginTop="320dp"
         android:background="@android:color/black"
         app:layout_constraintTop_toTopOf="parent" />
+    -->
 
     <View
         android:id="@+id/bottom_line"
@@ -82,7 +83,6 @@
         android:layout_marginTop="360dp"
         android:background="@android:color/black"
         app:layout_constraintTop_toTopOf="parent" />
-    -->
     <!-- vertical lines -->
 
     <!--
@@ -147,26 +147,28 @@
         android:layout_marginLeft="320dp"
         android:background="@android:color/black"
         app:layout_constraintLeft_toLeftOf="parent" />
+    -->
 
     <View
         android:layout_width="2dp"
         android:layout_height="362dp"
         android:layout_marginLeft="360dp"
         android:background="@android:color/black"
+        android:id="@+id/right_line"
         app:layout_constraintLeft_toLeftOf="parent" />
-    -->
+
     <!-- buttons -->
+
     <Button
         android:id="@+id/solve"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
         android:text="Solve"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintTop_toTopOf="@id/bottom_line"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:layout_editor_absoluteX="170dp" />
+        app:layout_constraintTop_toTopOf="@+id/grid_area" />
 
     <TextView
         android:id="@+id/wait_message"
@@ -195,8 +197,10 @@
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,7 +1,7 @@
 package jalog_demo.sudoku_solver;
 /* ToDo
+  * Thinking - message does not show
   * If there is no room for solve-button
-  *
 */
 import android.content.Context;
 import android.content.res.AssetManager;
@@ -21,6 +21,7 @@ import android.os.Bundle;
 import java.io.*;
 import android.content.res.Configuration;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -245,7 +246,7 @@ public class MainActivity extends AppCompatActivity {
 
       }
     }
-    for (i = 0; i < 10; i++) {
+    for (i = 0; i < 9; i++) {
       line = new View(this);
 
       /*
@@ -263,6 +264,7 @@ horlines
       main_viewgroup.addView(line);
       horlines[i] = line;
 
+
       // Vertical lines
 
       line = new View(this);
@@ -272,6 +274,17 @@ horlines
       verlines[i] = line;
 
     }
+
+
+    line = ((View)findViewById(R.id.bottom_line));
+    line.setBackgroundColor(0xff000000);
+    line.setLayoutParams(new ConstraintLayout.LayoutParams(10, 2));
+    horlines[9] = line;
+
+    line = ((View)findViewById(R.id.right_line));
+    line.setBackgroundColor(0xff000000);
+    line.setLayoutParams(new ConstraintLayout.LayoutParams(2, 10));
+    verlines[9] = line;
 
     push_button = ((Button)findViewById(R.id.solve));
     push_button.setOnClickListener(solve_listener);
@@ -300,7 +313,7 @@ horlines
         push_button.setTranslationX(j * cell_translation_one);
         push_button.setTranslationY(i * cell_translation_one);
         push_button.setTextSize(20);
-        push_button.setText("+");
+        push_button.setText(" ");
       }
     }
 
@@ -313,6 +326,23 @@ horlines
       line.setLayoutParams(new ConstraintLayout.LayoutParams((i%3 != 0 ? 2 : 4), 9 * button_dim));
       line.setTranslationX(i * cell_translation_one);
 
+    }
+
+    // Horizontal or vertical layout?
+    push_button = (Button) findViewById(R.id.solve);
+
+    if (a > b) {
+      // Vertical layout
+      push_button.setTranslationY(9 * cell_translation_one + 0);
+    } else {
+      // Horizontal layout
+      push_button.setTranslationX(9 * cell_translation_one + 0);
+/*
+      ConstraintSet set = new ConstraintSet();
+      set.connect(main_viewgroup.getId(), ConstraintSet.LEFT,
+          push_button.getId(), ConstraintSet.LEFT, (int)(9 * cell_translation_one) + 20);
+      set.applyTo((ConstraintLayout)main_viewgroup);
+*/
     }
 
   }
