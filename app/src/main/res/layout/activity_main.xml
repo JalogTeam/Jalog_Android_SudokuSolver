@@ -9,7 +9,7 @@
 
 
     <!-- horizontal lines -->
-
+    <!--
     <View
         android:id="@+id/top_line"
         android:layout_width="362dp"
@@ -82,9 +82,10 @@
         android:layout_marginTop="360dp"
         android:background="@android:color/black"
         app:layout_constraintTop_toTopOf="parent" />
-
+    -->
     <!-- vertical lines -->
 
+    <!--
     <View
         android:layout_width="2dp"
         android:layout_height="362dp"
@@ -153,7 +154,7 @@
         android:layout_marginLeft="360dp"
         android:background="@android:color/black"
         app:layout_constraintLeft_toLeftOf="parent" />
-
+    -->
     <!-- buttons -->
     <Button
         android:id="@+id/solve"

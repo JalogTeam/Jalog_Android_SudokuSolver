@@ -1,4 +1,8 @@
 package jalog_demo.sudoku_solver;
+/* ToDo
+  * If there is no room for solve-button
+  *
+*/
 import android.content.Context;
 import android.content.res.AssetManager;
 import io.github.JalogTeam.jalog.Jalog;
@@ -26,9 +30,12 @@ public class MainActivity extends AppCompatActivity {
   class sudoku_cell {
     Button view;
     int value;
-  }
+  };
 
-  ;
+  static View[] horlines = new View[10];
+  static View[] verlines = new View[10];
+
+
   static sudoku_cell[][] sudoku_field;
   static TextView wait_message;
   static float cell_translation_one;
@@ -202,6 +209,7 @@ public class MainActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     int i, j;
     Button push_button;
+    View line;
     super.onCreate(savedInstanceState);
     sudoku_field = new sudoku_cell[9][];
 //    sudoku_field = new sudoku_cell[9][9];
@@ -237,6 +245,33 @@ public class MainActivity extends AppCompatActivity {
 
       }
     }
+    for (i = 0; i < 10; i++) {
+      line = new View(this);
+
+      /*
+              android:id="@+id/bottom_line"
+        android:layout_width="362dp"
+        android:layout_height="2dp"
+        android:layout_marginTop="360dp"
+        android:background="@android:color/black"
+        app:layout_constraintTop_toTopOf="parent" />
+
+horlines
+       */
+      line.setBackgroundColor(0xff000000);
+      line.setLayoutParams(new ConstraintLayout.LayoutParams(10, (i%3 != 0 ? 2 : 1)));
+      main_viewgroup.addView(line);
+      horlines[i] = line;
+
+      // Vertical lines
+
+      line = new View(this);
+      line.setBackgroundColor(0xff000000);
+      line.setLayoutParams(new ConstraintLayout.LayoutParams((i%3 != 0 ? 2 : 1), 10));
+      main_viewgroup.addView(line);
+      verlines[i] = line;
+
+    }
 
     push_button = ((Button)findViewById(R.id.solve));
     push_button.setOnClickListener(solve_listener);
@@ -245,6 +280,7 @@ public class MainActivity extends AppCompatActivity {
   protected void setLayout() {
     int i, j;
     Button push_button;
+    View line;
     int button_width, button_height;
     wait_message = (TextView) findViewById(R.id.wait_message);
     wait_message.setVisibility(View.INVISIBLE);
@@ -266,6 +302,17 @@ public class MainActivity extends AppCompatActivity {
         push_button.setTextSize(20);
         push_button.setText("+");
       }
+    }
+
+    for (i = 0; i < 10; i++) {
+      line = horlines[i];
+      line.setLayoutParams(new ConstraintLayout.LayoutParams(9 * button_dim, (i%3 != 0 ? 2 : 4)));
+      line.setTranslationY(i * cell_translation_one);
+
+      line = verlines[i];
+      line.setLayoutParams(new ConstraintLayout.LayoutParams((i%3 != 0 ? 2 : 4), 9 * button_dim));
+      line.setTranslationX(i * cell_translation_one);
+
     }
 
   }
