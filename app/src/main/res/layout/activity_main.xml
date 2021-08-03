@@ -81,7 +81,7 @@
         android:layout_width="362dp"
         android:layout_height="2dp"
         android:layout_marginTop="360dp"
-        android:background="@android:color/black"
+        android:background="@color/purple_200"
         app:layout_constraintTop_toTopOf="parent" />
     <!-- vertical lines -->
 
@@ -158,13 +158,24 @@
         app:layout_constraintLeft_toLeftOf="parent" />
 
     <!-- buttons -->
-
+<!--
     <Button
         android:id="@+id/solve"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
+        android:text="Solve"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/grid_area" />
+-->
+    <Button
+        android:id="@+id/solve"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="0dp"
         android:text="Solve"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -178,15 +189,16 @@
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
         android:background="#FFFFFFFF"
+        android:elevation="1dp"
         android:padding="10dp"
         android:text="Thinking..."
         android:textColor="@color/black"
         android:textSize="24sp"
         android:translationZ="90dp"
-        app:layout_constraintBottom_toBottomOf="@id/bottom_line"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/top_line" />
+        app:layout_constraintTop_toTopOf="@+id/grid_area" />
 
     <TextView
         android:id="@+id/grid_area"

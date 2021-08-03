@@ -1,8 +1,5 @@
 package jalog_demo.sudoku_solver;
-/* ToDo
-  * Thinking - message does not show
-  * If there is no room for solve-button
-*/
+
 import android.content.Context;
 import android.content.res.AssetManager;
 import io.github.JalogTeam.jalog.Jalog;
@@ -28,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
   static ViewGroup main_viewgroup = null;
   static TextView grid_area = null;
 
-  class sudoku_cell {
+  static class sudoku_cell {
     Button view;
     int value;
   };
@@ -38,6 +35,21 @@ public class MainActivity extends AppCompatActivity {
 
 
   static sudoku_cell[][] sudoku_field;
+  static {
+    int i, j;
+    sudoku_field = new sudoku_cell[9][];
+    for (i = 0; i < 9; i++) {
+      sudoku_field[i] = new sudoku_cell[9];
+      for (j = 0; j < 9; j++) {
+        sudoku_field[i][j] = new sudoku_cell();
+        sudoku_field[i][j].view = null;
+        sudoku_field[i][j].value = 0;
+      }
+    }
+  }
+
+
+
   static TextView wait_message;
   static float cell_translation_one;
   static AssetManager am = null;
@@ -211,8 +223,9 @@ public class MainActivity extends AppCompatActivity {
     int i, j;
     Button push_button;
     View line;
+    sudoku_cell cell;
     super.onCreate(savedInstanceState);
-    sudoku_field = new sudoku_cell[9][];
+//    sudoku_field = new sudoku_cell[9][];
 //    sudoku_field = new sudoku_cell[9][9];
     setContentView(R.layout.activity_main);
     am = getResources().getAssets();
@@ -228,19 +241,21 @@ public class MainActivity extends AppCompatActivity {
     grid_area = ((TextView)findViewById(R.id.grid_area));
 
     for (i = 0; i < 9; i++) {
-      sudoku_field[i] = new sudoku_cell[9];
+//      sudoku_field[i] = new sudoku_cell[9];
       for (j = 0; j < 9; j++) {
+//        cell = new sudoku_cell();
         push_button = new Button(this);
 
-        sudoku_field[i][j] = new sudoku_cell();
-
+//        sudoku_field[i][j] = cell;
+        cell = sudoku_field[i][j];
         push_button.setPadding(button_padding, 0, button_padding, 0);
         push_button.setBackgroundColor(buttonBackground);
         main_viewgroup.addView(push_button);
-        sudoku_field[i][j].view = push_button;
-        sudoku_field[i][j].value = 0;
-        push_button.setText("-");
-        push_button.setTag(sudoku_field[i][j]);
+        cell.view = push_button;
+//        cell.value = 0;
+        push_button.setText(convert_number(cell.value));
+
+        push_button.setTag(cell);
 
         push_button.setOnClickListener(click_listener);
 
@@ -293,18 +308,43 @@ horlines
   protected void setLayout() {
     int i, j;
     Button push_button;
+    Button solve_button;
     View line;
     int button_width, button_height;
-    wait_message = (TextView) findViewById(R.id.wait_message);
-    wait_message.setVisibility(View.INVISIBLE);
+    int solve_width, solve_height;
     int a = grid_area.getMeasuredHeight();
     int b = grid_area.getMeasuredWidth();
+    int button_dim;
+    float button_textsize;
+    float cell_translation_one;
+    int grid_dim, grid_dim_h, grid_dim_w;
 
-    int button_dim = (a < b ? a : b) / 9 - 1;
+    wait_message = (TextView) findViewById(R.id.wait_message);
+    wait_message.setVisibility(View.INVISIBLE);
+    solve_button = (Button) findViewById(R.id.solve);
+    solve_width = solve_button.getMeasuredWidth();
+    solve_height = solve_button.getMeasuredHeight();
+
+    grid_dim_w = b - solve_width - 40;
+    grid_dim_h = a - solve_height - 40;
+    if (grid_dim_w > grid_dim_h) {
+      // horizontal layout
+      grid_dim = grid_dim_w;
+      if (grid_dim > a) grid_dim = a;
+      solve_button.setTranslationY(40);
+      solve_button.setTranslationX(grid_dim + 40);
+    } else {
+      // vertical layout
+      grid_dim = grid_dim_h;
+      if (grid_dim > b) grid_dim = b;
+      solve_button.setTranslationY(grid_dim + 40);
+      solve_button.setTranslationX(40);
+    }
+    button_dim = (grid_dim-4) / 9;
     button_width = button_dim;
     button_height = button_dim;
-    float button_textsize = button_dim / 4;
-    float cell_translation_one = button_dim;
+    button_textsize = button_dim / 4;
+    cell_translation_one = button_dim;
 
     for (i = 0; i < 9; i++) {
       for (j = 0; j < 9; j++) {
@@ -313,7 +353,7 @@ horlines
         push_button.setTranslationX(j * cell_translation_one);
         push_button.setTranslationY(i * cell_translation_one);
         push_button.setTextSize(20);
-        push_button.setText(" ");
+        //push_button.setText(" ");
       }
     }
 
@@ -327,24 +367,6 @@ horlines
       line.setTranslationX(i * cell_translation_one);
 
     }
-
-    // Horizontal or vertical layout?
-    push_button = (Button) findViewById(R.id.solve);
-
-    if (a > b) {
-      // Vertical layout
-      push_button.setTranslationY(9 * cell_translation_one + 0);
-    } else {
-      // Horizontal layout
-      push_button.setTranslationX(9 * cell_translation_one + 0);
-/*
-      ConstraintSet set = new ConstraintSet();
-      set.connect(main_viewgroup.getId(), ConstraintSet.LEFT,
-          push_button.getId(), ConstraintSet.LEFT, (int)(9 * cell_translation_one) + 20);
-      set.applyTo((ConstraintLayout)main_viewgroup);
-*/
-    }
-
   }
 }
 
