@@ -25,6 +25,15 @@ public class MainActivity extends AppCompatActivity {
   static ViewGroup main_viewgroup = null;
   static TextView grid_area = null;
 
+  static class MyResourceManager extends Jalog.ResourceManager {
+    public InputStream getResourceAsStream(String fileName) throws IOException {
+      return am.open(fileName);
+    }
+
+
+  }
+
+
   static class sudoku_cell {
     Button view;
     int value;
@@ -129,7 +138,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public void onFinish() {
-          Jalog myJalog = new Jalog(am);
+//          Jalog myJalog = new Jalog(am);
+          Jalog myJalog = new Jalog() ;
+          myJalog.setResourceManager(new MyResourceManager());
 
 //          Context mContext = getApplicationContext();
 //          InputStream is = mContext.getAssets().open("sudoku_solver_component.pro");
