@@ -1,0 +1,32 @@
+Integrating Jalog to Android App
+================================
+
+import android.content.res.AssetManager; // to access Jalog program in resources
+import io.github.JalogTeam.jalog.Jalog; // get Jalog
+
+public class MainActivity extends AppCompatActivity {
+
+  static Jalog myJalog;  // Jalog engine
+
+  // Directs resource access to Android resources
+  class MyResourceManager extends Jalog.ResourceManager {
+    public InputStream getResourceAsStream(String fileName) throws IOException {
+      return getResources().getAssets().open(fileName);
+    }
+  }
+
+
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    ...
+    Jalog myJalog = new Jalog() ;  // Creates a Jalog engine
+    myJalog.setResourceManager(new MyResourceManager()); 
+        // Use Android resource system
+    myJalog.consult_file("res:filename.pro"); // Consult a Jalog program
+    ...
+  }
+}
+
+        
+        
+
