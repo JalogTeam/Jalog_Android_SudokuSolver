@@ -1,5 +1,5 @@
 ![alt text](https://github.com/JalogTeam/Jalog_Android_SudokuSolver/raw/master/doc/SudokuSolver_screenshot.jpg "Screenshot")
-# Jalog_Android_demo
+# Jalog_Android_SudokuSolver
 **Application (using Jalog logic) to solve Sudoku puzzles**
 1. Create Android Studio project
   * New Project
@@ -9,7 +9,7 @@
 
 2. Install SudokuSolver package
   * From https://github.com/JalogTeam/Jalog_Android_SudokuSolver > Code > Download ZIP
-  * Unzip `Jalog_Android_demo-master.zip`
+  * Unzip `Jalog_Android_SudokuSolver-master.zip`
   * Copy unzipped directories `app` to `app/src/main` 
     - confirm merging, if asked
 
