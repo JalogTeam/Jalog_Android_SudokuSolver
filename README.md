@@ -4,13 +4,13 @@
 1. Create Android Studio project
   * New Project
   * Empty Activity
-    - Name: `SudokuSolver`
+    - Name: `SudokuSolver` NOTE: This must be exactly right.
     - Package name: `jalog_demo.sudoku_solver`
 
 2. Install SudokuSolver package
   * From https://github.com/JalogTeam/Jalog_Android_SudokuSolver > Code > Download ZIP
   * Unzip `Jalog_Android_SudokuSolver-master.zip`
-  * Copy unzipped directories `app` to `app/src/main` 
+  * Copy unzipped directory `app` on top of `app` in Android Studio project
     - confirm merging, if asked
 
 3. Install Jalog

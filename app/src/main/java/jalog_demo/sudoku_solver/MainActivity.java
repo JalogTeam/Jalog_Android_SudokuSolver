@@ -24,13 +24,14 @@ public class MainActivity extends AppCompatActivity {
   static ViewGroup main_viewgroup = null;
   static TextView grid_area = null;
 
-  static Jalog myJalog;
   class MyResourceManager extends Jalog.ResourceManager {
     public InputStream getResourceAsStream(String fileName) throws IOException {
       return getResources().getAssets().open(fileName);
     }
   }
-
+ 
+  static MyResourceManager myResourceManager;
+      
   static class sudoku_cell {
     Button view;
     int value;
@@ -100,24 +101,26 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public void onFinish() {
-          solve_sudoku(myJalog);
-
-          myJalog.dispose();
-
+          solve_sudoku();
           wait_message.setVisibility(View.INVISIBLE);
         }
+        
       }.start();
 
     }
   };
 
-  static void solve_sudoku(Jalog myJalog) {
+  static void solve_sudoku() {
 
     int i, j, value;
     Jalog.Term line[] = new Jalog.Term[9];
     Jalog.Term matrix[] = new Jalog.Term[9];
     Jalog.Term board;
     Jalog.Term element;
+    
+    Jalog myJalog = new Jalog() ;
+    myJalog.setResourceManager(myResourceManager);
+    myJalog.consult_file("res:sudoku_solver_component.pro");
 
 //  Preparation of the problem
 
@@ -156,6 +159,7 @@ public class MainActivity extends AppCompatActivity {
     } catch (Jalog.Exit e) { // Report exception
       System.out.println("x");
     }
+    myJalog.dispose();
   }
 
   static int width;
@@ -188,14 +192,12 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    myJalog = new Jalog() ;
-    myJalog.setResourceManager(new MyResourceManager());
-    myJalog.consult_file("res:sudoku_solver_component.pro");
-
     int button_style = R.style.Widget_AppCompat_Button;
     int buttonBackground = 0;
     int button_padding = 0;
     int button_color = 0xFFFFFF;
+
+    myResourceManager = new MyResourceManager();
 
     main_viewgroup = ((ViewGroup)findViewById(R.id.main_layout));
     grid_area = ((TextView)findViewById(R.id.grid_area));
