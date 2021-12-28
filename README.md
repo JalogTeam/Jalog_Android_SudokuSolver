@@ -1,12 +1,15 @@
 ![alt text](https://github.com/JalogTeam/Jalog_Android_SudokuSolver/raw/master/doc/SudokuSolver_screenshot.jpg "Screenshot")
 # Jalog_Android_SudokuSolver
 **Application (using Jalog logic) to solve Sudoku puzzles**
+
 1. Create Android Studio project
   * New Project
   * Empty Activity
     - Name: `SudokuSolver`
     - Package name: `jalog_demo.sudoku_solver` 
          **NOTE**: Package name must be exactly right.
+    - Save location: Choose a good location.
+    - Language: `Java`
 
 2. Install SudokuSolver package
   * From https://github.com/JalogTeam/Jalog_Android_SudokuSolver > Code > Download ZIP
@@ -23,6 +26,7 @@
 4 Build SudokuSolver
   * In Android Studio 
     - select Nexus S API 28 (tested with this)
+    - Main menu > Build > Make Project
 
 5 Run   
   * Run 
